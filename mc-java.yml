@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  mc-paper:
+    image: itzg/minecraft-server:java17
+    environment:
+      VERSION: 1.19
+      EULA: "TRUE"
+      TYPE: QUILT
+      QUILT_LOADER_VERSION: 0.17.0
+      INIT_MEMORY: "512M"
+      MAX_MEMORY: "4G"
+      OVERRIDE_SERVER_PROPERTIES: "true"
+      #ENABLE_RCON: "false"
+      QUERY_PORT: 25565
+      GAMEMODE: survival
+      DIFFICULTY: hard
+      SERVER_NAME: ${WORLD_NAME}
+      SERVER_PORT: 25565
+      SERVER_PORT_V6: 25566
+      LEVEL: ${WORLD_NAME}
+      VIEW_DISTANCE: 24
+      MAX_THREADS: 4
+    ports:
+      - 25565:25565/tcp
+      - 25565:25565/udp
+      - 25566:25566
+    volumes:
+      - ${HOST_FOLDER_PATH}:/data
+
+    stdin_open: true
+    tty: true
+
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: ${NODE_PLACEMENT}
