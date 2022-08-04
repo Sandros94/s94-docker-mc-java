@@ -4,7 +4,7 @@ This is going to be a nice readme for the stack deployment on a swarm for a mine
 ## Current configuration
 The current configuration is based on a Quilt server using [itzg docker image](https://github.com/itzg/docker-minecraft-server). This let me install a number of Quilt/Fabric mods to optimize a number of performance and redstone-heavy worlds compared to Vanilla/Bukkit/Spigot/Paper server.  
 
-### Suggested mods are:  
+### Suggested server mods are:  
 - [Ferritecore](https://modrinth.com/mod/ferrite-core)
 - [Krypton](https://modrinth.com/mod/krypton)
 - [Lithium](https://modrinth.com/mod/lithium)
