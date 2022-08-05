@@ -35,4 +35,5 @@ services:
       mode: replicated
       replicas: 1
       placement:
-        constraints: ${NODE_PLACEMENT}
+        constraints: 
+          - ${NODE_PLACEMENT}
