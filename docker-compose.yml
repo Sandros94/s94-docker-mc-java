@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  mc-paper:
+    image: itzg/minecraft-server:java17
+    environment:
+      TZ: "Europe/Rome"
+      VERSION: 1.19
+      EULA: "TRUE"
+      TYPE: QUILT
+      INIT_MEMORY: "512M"
+      MAX_MEMORY: "2G"
+      OVERRIDE_SERVER_PROPERTIES: "true"
+      #ENABLE_RCON: "false"
+      QUERY_PORT: 25565
+      GAMEMODE: survival
+      DIFFICULTY: hard
+      SERVER_NAME: ZTK-Home
+      SERVER_PORT: 25565
+      LEVEL: ZTK-Home
+      VIEW_DISTANCE: 22
+      ENABLE_WHITELIST: "true"
+      WHITELIST: "2968e76c-60e6-4c96-b92d-5a7e1229b510"
+      OPS: "2968e76c-60e6-4c96-b92d-5a7e1229b510"
+    ports:
+      - 25565:25565/tcp
+      - 25565:25565/udp
+    volumes:
+      - ztk-home:/data
+
+    stdin_open: true
+    tty: true
+
+    deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints: 
+          - ${NODE_PLACEMENT}
+
+  filebrowser:
+    image: hurlenko/filebrowser
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ztk-home:/data/ztk-home
+      - adventurer:/data/adventurer
+      - cobblemon:/data/cobblemon
+      - farm:/data/farm
+      - humanity:/data/humanity
+      - realistic:/data/realistic
+      - filebrowser-config:/config
+    networks:
+      - caddy-public
+    deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints: 
+          - ${NODE_PLACEMENT}
+      labels:
+        caddy: ${FILEBROWSER_DOMAIN}
+        caddy.reverse_proxy: "{{upstreams 8080}}"
+
+volumes:
+  ztk-home:
+    name: minecraft_ztk-home
+  adventurer:
+    name: minecraft_adventurer 
+  cobblemon:
+    name: minecraft_cobblemon
+  farm:
+    name: minecraft_farm
+  humanity:
+    name: minecraft_humanity
+  realistic:
+    name: minecraft_realistic
+  filebrowser-config:
+
+
+networks:
+  caddy-public:
+    external: true
